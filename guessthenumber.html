@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: aliceblue;
+        background-color: rgb(32, 32, 32);
+    }
+
+    #all {
+        background-color: rgb(50, 50, 50);
+        margin: 10px;
+    }
+
+
+    #main {
+        display: inline;
+        height: 100px;
+    }
+
+    .head {
+        text-align: center;
+    }
+
+    .prev,
+    .rem,
+    .msg {
+        color: rgb(235, 168, 80);
+        font-size: 20px;
+        text-align: center;
+
+    }
+
+    #guesses {
+        display: inline;
+    }
+
+    #remain,
+    #msg {
+        text-align: center;
+
+    }
+
+    #guesses {
+        margin-left: 23px;
+    }
+</style>
+
+<body>
+    <div id="all">
+        <h1 class="head">
+            Guess number
+        </h1>
+        <input type="text" id="input">
+        <button id="submit">submit</button>
+        <button id="restart">restart</button>
+
+        <div id="main">
+            <p class="prev">Previous guess:-</p>
+            <p id="guesses"></p>
+        </div>
+
+        <div id="main">
+            <p class="rem">Remaining guesses:-</p>
+            <p id="remain"></p>
+        </div>
+
+        <div id="main">
+            <p class="msg">Message:-</p>
+            <p id="msg"></p>
+
+        </div>
+
+
+    </div>
+</body>
+<script>
+    const random = parseInt(Math.random() * 100 + 1)
+    console.log(random)
+    const submit = document.querySelector("#submit")
+    const inp = document.querySelector("#input")
+    const previousGuess = document.querySelector('#guesses')
+    const remainingguesses = document.querySelector("#remain")
+    const message = document.querySelector('#msg')
+    const restart = document.querySelector("#restart")
+    let remain = 10
+    const prevguesses = []
+    submit.addEventListener('click', function (e) {
+        e.preventDefault()
+        if (inp.value >= 1 && inp.value <= 100) {
+
+            prevguesses.push(inp.value)
+            check(inp.value)
+            remain--
+        }
+        else if (isNaN(inp.value)) {
+            alert('enter a valid num')
+
+        }
+        inp.value = " "
+
+        remainingguesses.innerHTML = remain
+        previousGuess.innerHTML = prevguesses
+        if (remain === 0) {
+            document.querySelector("#submit").disabled = true
+            alert('max try limit is reached')
+        }
+        function check(val) {
+            if (parseInt(val) === random) {
+                message.innerHTML = "Yay you guessed it right..."
+            }
+            else if (val < random) {
+                message.innerHTML = "Value is too low"
+            }
+            else {
+                message.innerHTML = "Value is higher"
+            }
+
+        }
+    })
+    restart.addEventListener('click', function (e) {
+        prevguesses.splice(0, prevguesses.length)
+        remain = 10
+        previousGuess.innerHTML = ""
+        remainingguesses.innerHTML = ""
+        inp.value = ""
+        message.innerHTML = ""
+    })
+
+</script>
+
+
+</html>
